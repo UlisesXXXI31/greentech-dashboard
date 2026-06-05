@@ -1,122 +1,81 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from "react";
+
+// Definimos la estructura exacta que nos devuelve Java usando una interfaz de TypeScript
+interface Solarpanel {
+  id: number;
+  model: string;
+  current_output: number;
+  status: 'OK' | 'WARNING' | 'FAULT';
+  installation_date:string;
+  last_update: string;
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+     const [solarpanels, setSolarpanels] = useState<Solarpanel[]>([]);
+     const [Loading, setLoading] = useState<boolean>(true);
+
+     useEffect(() => {
+      console.log("🚀 React: Iniciando petición al backend...");
+         // Hacemos la petición al backend de Java para obtener los datos de los paneles solares
+        fetch('https://humble-space-acorn-r475rq6wq7wwc55ww-8081.app.github.dev/api/panels')
+      .then((response) => {
+      console.log("📡 React: Estado de la respuesta HTTP:", response.status);
+      if (!response.ok) {
+        throw new Error(`Error en el servidor: ${response.status}`);
+      }
+      return response.json();
+    })
+      .then(data => {
+        console.log("📦 React: Datos JSON crudos recibidos desde Java:", data);
+        setSolarpanels(data);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error("Error conectando con el cerebro de Java:", error);
+        setLoading(false);
+      });
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <div style={{ padding: '40px', fontFamily: 'sans-serif', maxWidth: '800px', margin: '0 auto' }}>
+      <header style={{ borderBottom: '2px solid #2e7d32', paddingBottom: '10px', marginBottom: '30px' }}>
+        <h1 style={{ color: '#2e7d32', margin: 0 }}>🌱 GreenTech Dashboard</h1>
+        <p style={{ color: '#666', marginTop: '5px' }}>Monitor de Eficiencia Energética en Tiempo Real</p>
+      </header>
+
+      {Loading ? (
+        <p>Conectando con el servidor...</p>
+      ) : (
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+          <h2>Paneles Solares Registrados ({solarpanels.length})</h2>
+          
+          {solarpanels.length === 0 ? (
+            <div style={{ backgroundColor: '#f5f5f5', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+              <p style={{ color: '#555' }}>No hay paneles solares conectados al sistema todavía.</p>
+              <p style={{ fontSize: '14px', color: '#888' }}>El cerebro está listo, pero la base de datos está vacía. ¡Pronto crearemos el primer panel!</p>
+            </div>
+          ) : (
+            <ul style={{ listStyleType: 'none', padding: 0 }}>
+  {solarpanels.map(panel => (
+    <li key={panel.id} style={{ 
+      backgroundColor: '#f9f9f9', 
+      margin: '10px 0', 
+      padding: '15px', 
+      borderRadius: '6px',
+      borderLeft: `5px solid ${panel.status === 'OK' ? '#2e7d32' : panel.status === 'WARNING' ? '#f57c00' : '#d32f2f'}`
+    }}>
+      <strong>{panel.model}</strong> — Rendimiento: {panel.current_output} W 
+      <span style={{ float: 'right', fontWeight: 'bold' }}>[{panel.status}]</span>
+    </li>
+  ))}
+</ul>
+          )}
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      )}
+    </div>
   )
+    
 }
+
 
 export default App
