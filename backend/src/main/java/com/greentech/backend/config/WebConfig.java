@@ -7,15 +7,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+@Value("${app.cors.allowed-origins}")
+    private String allowedOrigins;
 
-    @Override
+ @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                // Registra de forma flexible cualquier puerto o URL que genere tu Codespace
-                .allowedOriginPatterns("https://*-*.app.github.dev")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+        registry.addMapping("/**") 
+                // En lugar de "*", le damos los orígenes exactos permitidos de forma segura
+                .allowedOrigins(
+                    allowedOrigins,                            
+                    "https://greentech-backend-8rmi.onrender.com", 
+                    "http://localhost:8080"                      
+                )
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
-                .allowCredentials(true)
+                .allowCredentials(true) // Al usar orígenes explícitos arriba, esto JAMÁS volverá a fallar
                 .maxAge(3600);
     }
 }
