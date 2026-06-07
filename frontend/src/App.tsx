@@ -17,7 +17,7 @@ function App() {
      useEffect(() => {
       console.log("🚀 React: Iniciando petición al backend...");
          // Hacemos la petición al backend de Java para obtener los datos de los paneles solares
-        fetch('https://humble-space-acorn-r475rq6wq7wwc55ww-8081.app.github.dev/api/panels')
+        fetch('https://greentech-backend-8rmi.onrender.com/api/panels')
       .then((response) => {
       console.log("📡 React: Estado de la respuesta HTTP:", response.status);
       if (!response.ok) {
