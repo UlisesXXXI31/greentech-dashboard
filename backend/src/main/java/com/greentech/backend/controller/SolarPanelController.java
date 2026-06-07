@@ -9,7 +9,7 @@ import java.util.List;
 import java.time.LocalDateTime;
 
 @RestController //Le dice a Spring que esto es una API REST
-@CrossOrigin(originPatterns = "https://*-*.app.github.dev", allowCredentials = "true")
+@CrossOrigin(origins = "*", allowedHeaders = "*") // 🔥 Cambiado para permitir Render y cualquier origen global
 @RequestMapping("/api/panels")//Define la ruta base para todas las operaciones relacionadas con paneles solares
 public class SolarPanelController {
 
