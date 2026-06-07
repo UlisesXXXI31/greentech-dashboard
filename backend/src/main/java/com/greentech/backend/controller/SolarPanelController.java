@@ -32,11 +32,10 @@ public class SolarPanelController {
     // HTTP POST: Recibe un nuevo panel de React, le asigna la hora actual y lo guarda
     @PostMapping
     public SolarPanel createPanel(@RequestBody SolarPanel newPanel) {
-        newPanel.setInstallation_date(LocalDateTime.now());
-        newPanel.setLast_update(LocalDateTime.now());
+        newPanel.setInstallationDate(LocalDateTime.now()); // ✅ Corregido a camelCase
+        newPanel.setLastUpdate(LocalDateTime.now());       // ✅ Corregido a camelCase
         return repository.save(newPanel);
     }
-
 
 
 }
