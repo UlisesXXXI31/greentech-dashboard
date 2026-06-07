@@ -1,7 +1,9 @@
 package com.greentech.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "solar_panels")
@@ -11,22 +13,25 @@ public class SolarPanel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 100)
+   @Column(nullable = false, length = 100)
     private String model;
 
-    @Column(name = "current_output", nullable = false)
-    private Double currentOutput; // CamelCase aquí
+    @JsonProperty("currentOutput") // Lee esto desde Insomnia
+    @Column(name = "current_output", nullable = false) // Guarda esto en Postgres
+    private Double currentOutput;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private PanelStatus status; 
 
-    @Column(name = "installation_date", nullable = false)   
-    private LocalDateTime installationDate; // CamelCase aquí
+    @JsonProperty("installationDate") // Lee esto desde Insomnia
+    @Column(name = "installation_date", nullable = false) // Guarda esto en Postgres
+    private LocalDateTime installationDate;
 
-    @Column(name = "last_update", nullable = false)
-    private LocalDateTime lastUpdate; // CamelCase aquí
-
+    @JsonProperty("lastUpdate") // Lee esto desde Insomnia
+    @Column(name = "last_update", nullable = false) // Guarda esto en Postgres
+    private LocalDateTime lastUpdate;
+    
     // Constructor vacío obligado por JPA
     public SolarPanel() {}
 
