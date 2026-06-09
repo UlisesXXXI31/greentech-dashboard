@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 // Forzamos a OpenAPI/Swagger a apuntar a la URL pública de tu contenedor en la nube
 @OpenAPIDefinition(
     servers = {
-        @Server(url = "https://humble-space-acorn-r475rq6wq7wwc55ww-8081.app.github.dev", description = "Servidor Codespaces Activo")
+        @Server(url = "https://greentech-backend-8rmi.onrender.com", description = "Servidor Codespaces Activo")
     }
 )
 @SpringBootApplication
