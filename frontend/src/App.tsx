@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 interface Solarpanel {
   id: number;
   model: string;
-  current_output: number;
+  currentOutput: number;
   status: 'OK' | 'WARNING' | 'FAULT';
-  installation_date:string;
-  last_update: string;
+  installationDate:string;
+  lastUpdate: string;
 }
 
 function App() {
@@ -64,7 +64,7 @@ function App() {
       borderRadius: '6px',
       borderLeft: `5px solid ${panel.status === 'OK' ? '#2e7d32' : panel.status === 'WARNING' ? '#f57c00' : '#d32f2f'}`
     }}>
-      <strong>{panel.model}</strong> — Rendimiento: {panel.current_output} W 
+      <strong>{panel.model}</strong> — Rendimiento: {panel.currentOutput} W 
       <span style={{ float: 'right', fontWeight: 'bold' }}>[{panel.status}]</span>
     </li>
   ))}
