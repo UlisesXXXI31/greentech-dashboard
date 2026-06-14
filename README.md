@@ -61,10 +61,10 @@ During the development of this ecosystem, several enterprise-level challenges we
 * Node.js & npm (Latest LTS).
 * Active PostgreSQL instance.
 
-### 1. Clone the Repository
-```bash
-git clone [https://github.com/UlisesXXXI31/greentech-dashboard](https://github.com/UlisesXXXI31/greentech-dashboard)
-cd greentech-dashboard
+ ### 1. Clone the Repository
+ ```bash
+  git clone [https://github.com/UlisesXXXI31/greentech-dashboard](https://github.com/UlisesXXXI31/greentech-dashboard)
+  cd greentech-dashboard
 
 ### 2. Backend Configuration (/backend)
 Create or edit the src/main/resources/application.properties file with your local database credentials:
